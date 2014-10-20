@@ -26,7 +26,7 @@ Capistrano::Configuration.instance.load do
   namespace :sidekiq do
     def for_each_process(&block)
       fetch(:sidekiq_processes).times do |idx|
-        if idx.zero? && fetch(:sidekiq_processes) <= 1
+        if idx.zero?
           pid_file = fetch(:sidekiq_pid)
           sidekiq_cmd = fetch(:sidekiq_cmd)
         else
