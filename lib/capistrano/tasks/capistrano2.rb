@@ -31,7 +31,7 @@ Capistrano::Configuration.instance.load do
           sidekiq_cmd = fetch(:sidekiq_cmd)
         else
           pid_file = fetch(:sidekiq_pid).gsub(/\.pid$/, "-#{idx}.pid")
-          sidekiq_cmd = fetch(:sidekiq_cmd).gsub(/\.yml$/, "-C config/sidekiq_#{idx}.yml")
+          sidekiq_cmd = fetch(:sidekiq_cmd) + " -C config/sidekiq_#{idx}.yml"
         end
         yield(pid_file, sidekiq_cmd, idx)
       end
