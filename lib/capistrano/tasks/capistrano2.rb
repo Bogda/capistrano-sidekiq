@@ -46,7 +46,6 @@ Capistrano::Configuration.instance.load do
     end
 
     def start_process(pid_file, sidekiq_cmd, idx)
-      p sidekiq_cmd
       args = []
       args.push "--index #{idx}"
       args.push "--pidfile #{pid_file}"
@@ -82,7 +81,7 @@ Capistrano::Configuration.instance.load do
     desc 'Start sidekiq'
     task :start, roles: lambda { fetch(:sidekiq_role) }, on_no_matching_servers: :continue do
       for_each_process do |pid_file, sidekiq_cmd, idx|
-        start_process(pid_file, idx, sidekiq_cmd)
+        start_process(pid_file, sidekiq_cmd, idx)
       end
     end
 
@@ -90,7 +89,7 @@ Capistrano::Configuration.instance.load do
     task :rolling_restart, roles: lambda { fetch(:sidekiq_role) }, on_no_matching_servers: :continue do
       for_each_process do |pid_file, sidekiq_cmd, idx|
         stop_process(pid_file, idx)
-        start_process(pid_file, idx, sidekiq_cmd)
+        start_process(pid_file, sidekiq_cmd, idx)
       end
     end
 
